@@ -1,15 +1,54 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { ArrowRight, BarChart3, CreditCard, DollarSign, PiggyBank, Sparkles, Target, Zap } from "lucide-react"
+import { FeatureCard } from "@/components/feature-card"
 
+const features = [
+  {
+    title: "Expense Tracking",
+    description: "Automatically track and categorize your expenses through bank integration",
+    icon: CreditCard,
+    color: "purple" as const,
+  },
+  {
+    title: "AI Recommendations",
+    description: "Get personalized savings recommendations based on your spending patterns",
+    icon: Zap,
+    color: "blue" as const,
+  },
+  {
+    title: "Predictive Analytics",
+    description: "Forecast upcoming expenses and identify financial trends",
+    icon: BarChart3,
+    color: "teal" as const,
+  },
+  {
+    title: "Financial Goals",
+    description: "Set and track your financial goals with gamified achievements",
+    icon: Target,
+    color: "green" as const,
+  },
+  {
+    title: "Smart Budgeting",
+    description: "Create intelligent budgets that adapt to your spending habits",
+    icon: PiggyBank,
+    color: "yellow" as const,
+  },
+  {
+    title: "Investment Insights",
+    description: "Get AI-powered insights on your investments and potential opportunities",
+    icon: DollarSign,
+    color: "orange" as const,
+  },
+]
 
-export default function Home (){
-  return(
+export default function Home() {
+  return (
     <div className="flex flex-col min-h-screen overflow-hidden">
-      <header className="px-4 lg:px-6 h-16 flex items-center justify-center border-b relative z-10 bg-background/80 backbrop-blur-sm">
-        <Link className="flex items-center justify-center"href="#">
+      <header className="px-4 lg:px-6 h-16 flex items-center border-b relative z-10 bg-background/80 backdrop-blur-sm">
+        <Link className="flex items-center justify-center" href="#">
           <div className="gradient-bg rounded-full p-1.5">
-            <DollarSign className="h-5 w-5 text-white"/>
+            <DollarSign className="h-5 w-5 text-white" />
           </div>
           <span className="ml-2 text-xl font-bold gradient-text">FinanceAI</span>
         </Link>
@@ -175,66 +214,22 @@ export default function Home (){
               </div>
             </div>
             <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 py-12 md:grid-cols-2 lg:grid-cols-3">
-              <div className="flex flex-col items-center space-y-2 rounded-lg border p-6 shadow-sm bg-white/80 backdrop-blur-sm hover:shadow-md transition-all hover:-translate-y-1 card-glow">
-                <div className="rounded-full bg-finance-purple/10 p-3 mb-2">
-                  <CreditCard className="h-8 w-8 text-finance-purple" />
-                </div>
-                <h3 className="text-xl font-bold">Expense Tracking</h3>
-                <p className="text-center text-muted-foreground">
-                  Automatically track and categorize your expenses through bank integration
-                </p>
-              </div>
-              <div className="flex flex-col items-center space-y-2 rounded-lg border p-6 shadow-sm bg-white/80 backdrop-blur-sm hover:shadow-md transition-all hover:-translate-y-1 card-glow">
-                <div className="rounded-full bg-finance-blue/10 p-3 mb-2">
-                  <Zap className="h-8 w-8 text-finance-blue" />
-                </div>
-                <h3 className="text-xl font-bold">AI Recommendations</h3>
-                <p className="text-center text-muted-foreground">
-                  Get personalized savings recommendations based on your spending patterns
-                </p>
-              </div>
-              <div className="flex flex-col items-center space-y-2 rounded-lg border p-6 shadow-sm bg-white/80 backdrop-blur-sm hover:shadow-md transition-all hover:-translate-y-1 card-glow">
-                <div className="rounded-full bg-finance-teal/10 p-3 mb-2">
-                  <BarChart3 className="h-8 w-8 text-finance-teal" />
-                </div>
-                <h3 className="text-xl font-bold">Predictive Analytics</h3>
-                <p className="text-center text-muted-foreground">
-                  Forecast upcoming expenses and identify financial trends
-                </p>
-              </div>
-              <div className="flex flex-col items-center space-y-2 rounded-lg border p-6 shadow-sm bg-white/80 backdrop-blur-sm hover:shadow-md transition-all hover:-translate-y-1 card-glow">
-                <div className="rounded-full bg-finance-green/10 p-3 mb-2">
-                  <Target className="h-8 w-8 text-finance-green" />
-                </div>
-                <h3 className="text-xl font-bold">Financial Goals</h3>
-                <p className="text-center text-muted-foreground">
-                  Set and track your financial goals with gamified achievements
-                </p>
-              </div>
-              <div className="flex flex-col items-center space-y-2 rounded-lg border p-6 shadow-sm bg-white/80 backdrop-blur-sm hover:shadow-md transition-all hover:-translate-y-1 card-glow">
-                <div className="rounded-full bg-finance-yellow/10 p-3 mb-2">
-                  <PiggyBank className="h-8 w-8 text-finance-yellow" />
-                </div>
-                <h3 className="text-xl font-bold">Smart Budgeting</h3>
-                <p className="text-center text-muted-foreground">
-                  Create intelligent budgets that adapt to your spending habits
-                </p>
-              </div>
-              <div className="flex flex-col items-center space-y-2 rounded-lg border p-6 shadow-sm bg-white/80 backdrop-blur-sm hover:shadow-md transition-all hover:-translate-y-1 card-glow">
-                <div className="rounded-full bg-finance-orange/10 p-3 mb-2">
-                  <DollarSign className="h-8 w-8 text-finance-orange" />
-                </div>
-                <h3 className="text-xl font-bold">Investment Insights</h3>
-                <p className="text-center text-muted-foreground">
-                  Get AI-powered insights on your investments and potential opportunities
-                </p>
-              </div>
+              {features.map((feature) => (
+                <FeatureCard
+                  key={feature.title}
+                  title={feature.title}
+                  description={feature.description}
+                  icon={feature.icon}
+                  color={feature.color}
+                />
+              ))}
             </div>
           </div>
         </section>
       </main>
       <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full border-t px-4 md:px-6 bg-background/80 backdrop-blur-sm relative z-10">
         <p className="text-xs text-muted-foreground">© 2024 FinanceAI. All rights reserved.</p>
+        <p className="text-xs text-muted-foreground sm:mx-auto">Created by nextvy with ❤️</p>
         <nav className="sm:ml-auto flex gap-4 sm:gap-6">
           <Link className="text-xs hover:text-finance-purple transition-colors" href="#">
             Terms of Service
@@ -244,9 +239,7 @@ export default function Home (){
           </Link>
         </nav>
       </footer>
-      
-      
-
     </div>
   )
 }
+
