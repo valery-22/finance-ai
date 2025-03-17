@@ -1,4 +1,3 @@
-// tailwind.config.js
 import tailwindcssAnimate from 'tailwindcss-animate';
 
 const tailwindConfig = {
@@ -18,7 +17,6 @@ const tailwindConfig = {
       },
     },
     extend: {
-      // In Tailwind v4, colors are defined directly without hsl() syntax
       colors: {
         border: "rgb(var(--border) / <alpha-value>)",
         input: "rgb(var(--input) / <alpha-value>)",
@@ -53,7 +51,6 @@ const tailwindConfig = {
           DEFAULT: "rgb(var(--card) / <alpha-value>)",
           foreground: "rgb(var(--card-foreground) / <alpha-value>)",
         },
-        // Custom vibrant colors - direct hex values
         finance: {
           purple: "#8B5CF6",
           blue: "#3B82F6",
@@ -111,7 +108,6 @@ const tailwindConfig = {
     },
   },
   plugins: [
-    // In Tailwind v4, plugins are imported directly
     tailwindcssAnimate,
   ],
 };

@@ -1,102 +1,109 @@
 @import "tailwindcss";
-
-@tailwind base;
-@tailwind components;
 @tailwind utilities;
 
+/* Define custom CSS variables for light and dark themes */
 @layer base {
   :root {
-    /* RGB values for Tailwind CSS v4 */
-    --background: 255 255 255; /* white */
-    --foreground: 20 20 20; /* near black */
+    --background: rgb(255, 255, 255); /* white */
+    --foreground: rgb(20, 20, 20); /* near black */
 
-    --card: 255 255 255;
-    --card-foreground: 20 20 20;
+    --card: rgb(255, 255, 255);
+    --card-foreground: rgb(20, 20, 20);
 
-    --popover: 255 255 255;
-    --popover-foreground: 20 20 20;
+    --popover: rgb(255, 255, 255);
+    --popover-foreground: rgb(20, 20, 20);
 
-    --primary: 139 92 246; /* purple */
-    --primary-foreground: 255 255 255;
+    --primary: rgb(139, 92, 246); /* purple */
+    --primary-foreground: rgb(255, 255, 255);
 
-    --secondary: 241 245 249; /* light gray */
-    --secondary-foreground: 30 41 59;
+    --secondary: rgb(241, 245, 249); /* light gray */
+    --secondary-foreground: rgb(30, 41, 59);
 
-    --muted: 241 245 249;
-    --muted-foreground: 100 116 139;
+    --muted: rgb(241, 245, 249);
+    --muted-foreground: rgb(100, 116, 139);
 
-    --accent: 241 245 249;
-    --accent-foreground: 30 41 59;
+    --accent: rgb(241, 245, 249);
+    --accent-foreground: rgb(30, 41, 59);
 
-    --destructive: 239 68 68; /* red */
-    --destructive-foreground: 255 255 255;
+    --destructive: rgb(239, 68, 68); /* red */
+    --destructive-foreground: rgb(255, 255, 255);
 
-    --border: 226 232 240;
-    --input: 226 232 240;
-    --ring: 139 92 246;
+    --border: rgb(226, 232, 240);
+    --input: rgb(226, 232, 240);
+    --ring: rgb(139, 92, 246);
 
     --radius: 0.5rem;
   }
 
   .dark {
-    --background: 15 23 42; /* dark blue/gray */
-    --foreground: 248 250 252;
+    --background: rgb(15, 23, 42); /* dark blue/gray */
+    --foreground: rgb(248, 250, 252);
 
-    --card: 15 23 42;
-    --card-foreground: 248 250 252;
+    --card: rgb(15, 23, 42);
+    --card-foreground: rgb(248, 250, 252);
 
-    --popover: 15 23 42;
-    --popover-foreground: 248 250 252;
+    --popover: rgb(15, 23, 42);
+    --popover-foreground: rgb(248, 250, 252);
 
-    --primary: 139 92 246;
-    --primary-foreground: 248 250 252;
+    --primary: rgb(139, 92, 246);
+    --primary-foreground: rgb(248, 250, 252);
 
-    --secondary: 30 41 59;
-    --secondary-foreground: 248 250 252;
+    --secondary: rgb(30, 41, 59);
+    --secondary-foreground: rgb(248, 250, 252);
 
-    --muted: 30 41 59;
-    --muted-foreground: 148 163 184;
+    --muted: rgb(30, 41, 59);
+    --muted-foreground: rgb(148, 163, 184);
 
-    --accent: 30 41 59;
-    --accent-foreground: 248 250 252;
+    --accent: rgb(30, 41, 59);
+    --accent-foreground: rgb(248, 250, 252);
 
-    --destructive: 127 29 29;
-    --destructive-foreground: 248 250 252;
+    --destructive: rgb(127, 29, 29);
+    --destructive-foreground: rgb(248, 250, 252);
 
-    --border: 30 41 59;
-    --input: 30 41 59;
-    --ring: 139 92 246;
+    --border: rgb(30, 41, 59);
+    --input: rgb(30, 41, 59);
+    --ring: rgb(139, 92, 246);
   }
 }
 
+/* Apply base styles using Tailwind CSS utility classes */
 @layer base {
   * {
-    @apply border-border;
+    @apply border-gray-200;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-[rgb(var(--background))] text-[rgb(var(--foreground))] font-sans antialiased;
+  }
+  a {
+    @apply text-[rgb(var(--primary))] hover:underline;
+  }
+  button {
+    @apply bg-[rgb(var(--primary))] text-[rgb(var(--primary-foreground))] rounded-[var(--radius)] px-4 py-2 hover:bg-[rgb(var(--primary-dark))] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[rgb(var(--ring))];
+  }
+  input, textarea {
+    @apply border-[rgb(var(--border))] bg-[rgb(var(--input))] text-[rgb(var(--foreground))] rounded-[var(--radius)] px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--ring))];
   }
 }
 
-/* Custom utility classes */
+/* Custom utility classes for gradients and animations */
 .gradient-text {
-  @apply bg-clip-text text-transparent bg-gradient-to-r from-finance-purple to-finance-blue;
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-blue-500;
 }
 
 .gradient-bg {
-  @apply bg-gradient-to-r from-finance-purple to-finance-blue;
+  @apply bg-gradient-to-r from-purple-500 to-blue-500;
 }
 
 .gradient-bg-teal {
-  @apply bg-gradient-to-r from-finance-teal to-finance-green;
+  @apply bg-gradient-to-r from-teal-500 to-green-500;
 }
 
 .gradient-bg-orange {
-  @apply bg-gradient-to-r from-finance-yellow to-finance-orange;
+  @apply bg-gradient-to-r from-yellow-500 to-orange-500;
 }
 
 .gradient-bg-pink {
-  @apply bg-gradient-to-r from-finance-red to-finance-pink;
+  @apply bg-gradient-to-r from-red-500 to-pink-500;
 }
 
 .card-glow {
@@ -125,4 +132,3 @@
 .blob {
   @apply absolute rounded-full blur-3xl opacity-30;
 }
-

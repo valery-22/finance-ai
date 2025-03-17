@@ -45,7 +45,7 @@ const features = [
 export default function Home() {
   return (
     <div className="flex flex-col min-h-screen overflow-hidden">
-      <header className="px-4 lg:px-6 h-16 flex items-center border-b relative z-10 bg-background/80 backdrop-blur-sm">
+      <header className="px-4 lg:px-6 h-16 flex items-center border-b relative z-10 bg-white/80 backdrop-blur-sm">
         <Link className="flex items-center justify-center" href="#">
           <div className="gradient-bg rounded-full p-1.5">
             <DollarSign className="h-5 w-5 text-white" />
@@ -88,7 +88,7 @@ export default function Home() {
             <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6">
               <span className="gradient-text">FinanceAI</span>
             </h1>
-            <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto">
+            <p className="text-xl md:text-2xl text-gray-500 max-w-3xl mx-auto">
               An AI-powered personal finance assistant that helps you track expenses, save money, and achieve your
               financial goals through intelligent recommendations and predictive analytics.
             </p>
@@ -119,7 +119,7 @@ export default function Home() {
                   <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
                     Manage Your <span className="gradient-text">Finances</span> with AI
                   </h2>
-                  <p className="max-w-[600px] text-muted-foreground md:text-xl">
+                  <p className="max-w-[600px] text-gray-500 md:text-xl">
                     Our AI-powered assistant helps you track expenses, save money, and achieve your financial goals with
                     personalized recommendations.
                   </p>
@@ -145,29 +145,29 @@ export default function Home() {
                 <div className="relative w-full h-[350px] rounded-lg overflow-hidden card-glow">
                   <div className="absolute inset-0 bg-gradient-to-br from-finance-purple/20 via-finance-blue/20 to-finance-teal/20 rounded-lg"></div>
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-3/4 h-[250px] bg-background/80 backdrop-blur-sm rounded-lg shadow-lg p-6 flex flex-col gap-4 border border-white/20 animate-float">
+                    <div className="w-3/4 h-[250px] bg-white/80 backdrop-blur-sm rounded-lg shadow-lg p-6 flex flex-col gap-4 border border-white/20 animate-float">
                       <div className="flex items-center justify-between">
                         <h3 className="font-semibold">Your Financial Overview</h3>
                         <BarChart3 className="h-5 w-5 text-finance-purple" />
                       </div>
                       <div className="grid grid-cols-2 gap-4">
                         <div className="bg-gradient-to-r from-finance-purple/10 to-finance-blue/10 p-3 rounded-md border border-white/10">
-                          <p className="text-xs text-muted-foreground">Monthly Savings</p>
+                          <p className="text-xs text-gray-500">Monthly Savings</p>
                           <p className="text-lg font-bold text-finance-purple">$1,250</p>
                         </div>
                         <div className="bg-gradient-to-r from-finance-teal/10 to-finance-green/10 p-3 rounded-md border border-white/10">
-                          <p className="text-xs text-muted-foreground">Total Expenses</p>
+                          <p className="text-xs text-gray-500">Total Expenses</p>
                           <p className="text-lg font-bold text-finance-teal">$2,840</p>
                         </div>
                       </div>
                       <div className="mt-2 space-y-2">
-                        <div className="h-2 w-full bg-muted rounded-full overflow-hidden">
+                        <div className="h-2 w-full bg-gray-200 rounded-full overflow-hidden">
                           <div className="h-full w-3/4 bg-gradient-to-r from-finance-purple to-finance-blue rounded-full"></div>
                         </div>
-                        <div className="h-2 w-full bg-muted rounded-full overflow-hidden">
+                        <div className="h-2 w-full bg-gray-200 rounded-full overflow-hidden">
                           <div className="h-full w-1/2 bg-gradient-to-r from-finance-teal to-finance-green rounded-full"></div>
                         </div>
-                        <div className="h-2 w-full bg-muted rounded-full overflow-hidden">
+                        <div className="h-2 w-full bg-gray-200 rounded-full overflow-hidden">
                           <div className="h-full w-1/4 bg-gradient-to-r from-finance-yellow to-finance-orange rounded-full"></div>
                         </div>
                       </div>
@@ -208,7 +208,7 @@ export default function Home() {
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
                   <span className="gradient-text">Powerful</span> Features
                 </h2>
-                <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                <p className="max-w-[900px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
                   Our AI-powered platform offers everything you need to take control of your finances
                 </p>
               </div>
@@ -227,9 +227,9 @@ export default function Home() {
           </div>
         </section>
       </main>
-      <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full border-t px-4 md:px-6 bg-background/80 backdrop-blur-sm relative z-10">
-        <p className="text-xs text-muted-foreground">© 2024 FinanceAI. All rights reserved.</p>
-        <p className="text-xs text-muted-foreground sm:mx-auto">Created by nextvy with ❤️</p>
+      <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full border-t px-4 md:px-6 bg-white/80 backdrop-blur-sm relative z-10">
+        <p className="text-xs text-gray-500">© 2024 FinanceAI. All rights reserved.</p>
+        <p className="text-xs text-gray-500 sm:mx-auto">Created by nextvy with ❤️</p>
         <nav className="sm:ml-auto flex gap-4 sm:gap-6">
           <Link className="text-xs hover:text-finance-purple transition-colors" href="#">
             Terms of Service
@@ -242,4 +242,3 @@ export default function Home() {
     </div>
   )
 }
-
