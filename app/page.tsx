@@ -228,7 +228,7 @@ export default function Home() {
         </section>
       </main>
       <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full border-t px-4 md:px-6 bg-white/80 backdrop-blur-sm relative z-10">
-        <p className="text-xs text-gray-500">© 2024 FinanceAI. All rights reserved.</p>
+        <p className="text-xs text-gray-500">© 2025 FinanceAI. All rights reserved.</p>
         <p className="text-xs text-gray-500 sm:mx-auto">Created by nextvy with ❤️</p>
         <nav className="sm:ml-auto flex gap-4 sm:gap-6">
           <Link className="text-xs hover:text-finance-purple transition-colors" href="#">
