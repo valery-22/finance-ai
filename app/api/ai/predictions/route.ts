@@ -14,7 +14,7 @@ export async function POST(request: Request) {
     }
 
     // Get request body
-    await request.json()
+    const { userData } = await request.json()
 
     // Get user's transactions from the last 90 days for better prediction
     const ninetyDaysAgo = new Date()
@@ -58,7 +58,7 @@ export async function POST(request: Request) {
 // Helper function to calculate monthly data
 function calculateMonthlyData(transactions: any[]) {
   // Group transactions by month
-  const monthlyData: Record<string, { income: number; expenses: number; breakdown: Record<string, number> }> = {}
+  const monthlyData: Record<string, any> = {}
 
   transactions.forEach((transaction) => {
     const date = new Date(transaction.date)

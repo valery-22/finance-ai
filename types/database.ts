@@ -12,11 +12,8 @@ export interface Database {
           has_plaid_connection: boolean
           created_at: string
           updated_at: string | null
-          avatar_url: string | null
-          subscription_tier: string | null
+          subscription: string | null
           subscription_status: string | null
-          stripe_customer_id: string | null
-          stripe_subscription_id: string | null
         }
         Insert: {
           id: string
@@ -26,11 +23,8 @@ export interface Database {
           has_plaid_connection?: boolean
           created_at?: string
           updated_at?: string | null
-          avatar_url?: string | null
-          subscription_tier?: string | null
+          subscription?: string | null
           subscription_status?: string | null
-          stripe_customer_id?: string | null
-          stripe_subscription_id?: string | null
         }
         Update: {
           id?: string
@@ -40,11 +34,8 @@ export interface Database {
           has_plaid_connection?: boolean
           created_at?: string
           updated_at?: string | null
-          avatar_url?: string | null
-          subscription_tier?: string | null
+          subscription?: string | null
           subscription_status?: string | null
-          stripe_customer_id?: string | null
-          stripe_subscription_id?: string | null
         }
       }
       transactions: {
@@ -90,7 +81,7 @@ export interface Database {
           account_id: string
           name: string
           type: string
-          subtype: string | null
+          subtype: string
           balance_available: number | null
           balance_current: number
           created_at: string
@@ -102,7 +93,7 @@ export interface Database {
           account_id: string
           name: string
           type: string
-          subtype?: string | null
+          subtype: string
           balance_available?: number | null
           balance_current: number
           created_at?: string
@@ -114,42 +105,10 @@ export interface Database {
           account_id?: string
           name?: string
           type?: string
-          subtype?: string | null
+          subtype?: string
           balance_available?: number | null
           balance_current?: number
           created_at?: string
-        }
-      }
-      goals: {
-        Row: {
-          id: string
-          user_id: string
-          title: string
-          target: number
-          current: number
-          color: string | null
-          created_at: string
-          updated_at: string | null
-        }
-        Insert: {
-          id?: string
-          user_id: string
-          title: string
-          target: number
-          current?: number
-          color?: string | null
-          created_at?: string
-          updated_at?: string | null
-        }
-        Update: {
-          id?: string
-          user_id?: string
-          title?: string
-          target?: number
-          current?: number
-          color?: string | null
-          created_at?: string
-          updated_at?: string | null
         }
       }
       plaid_items: {
@@ -175,103 +134,39 @@ export interface Database {
           created_at?: string
         }
       }
-      subscriptions: {
+      goals: {
         Row: {
           id: string
           user_id: string
-          stripe_subscription_id: string
-          stripe_customer_id: string
-          status: string
-          tier: string
-          current_period_start: string
-          current_period_end: string
+          title: string
+          target: number
+          current: number
+          color: string
           created_at: string
-          updated_at: string | null
         }
         Insert: {
           id?: string
           user_id: string
-          stripe_subscription_id: string
-          stripe_customer_id: string
-          status: string
-          tier: string
-          current_period_start: string
-          current_period_end: string
+          title: string
+          target: number
+          current: number
+          color: string
           created_at?: string
-          updated_at?: string | null
         }
         Update: {
           id?: string
           user_id?: string
-          stripe_subscription_id?: string
-          stripe_customer_id?: string
-          status?: string
-          tier?: string
-          current_period_start?: string
-          current_period_end?: string
+          title?: string
+          target?: number
+          current?: number
+          color?: string
           created_at?: string
-          updated_at?: string | null
         }
       }
     }
-    Views: {
-      [_ in never]: never
-    }
-    Functions: {
-      [_ in never]: never
-    }
-    Enums: {
-      [_ in never]: never
-    }
+    Views: {}
+    Functions: {}
+    Enums: {}
   }
-}
-
-export interface Profile {
-  id: string
-  firstName?: string
-  lastName?: string
-  email?: string
-  avatar_url?: string
-  subscription?: "free" | "premium" | "business"
-  subscriptionStatus?: "active" | "trialing" | "past_due" | "canceled" | "incomplete"
-  stripe_customer_id?: string
-  created_at?: string
-  updated_at?: string
-}
-
-export interface Transaction {
-  id: string
-  user_id: string
-  account_id: string
-  date: string
-  amount: number
-  description: string
-  category?: string
-  subcategory?: string
-  pending: boolean
-  created_at: string
-}
-
-export interface Account {
-  id: string
-  user_id: string
-  plaid_account_id: string
-  plaid_item_id: string
-  name: string
-  official_name?: string
-  type: string
-  subtype?: string
-  balance: number
-  created_at: string
-}
-
-export interface Item {
-  id: string
-  user_id: string
-  plaid_item_id: string
-  institution_name: string
-  status: "active" | "error" | "pending"
-  error?: string
-  created_at: string
 }
 

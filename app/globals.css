@@ -1,233 +1,114 @@
 @import "tailwindcss";
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
-}
-
-body {
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
-}
+@import "tailwindcss/preflight.css" layer(base);
+@import "tailwindcss/utilities.css" layer(utilities);
 
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 0 0% 3.9%;
+    --foreground: 240 10% 3.9%;
     --card: 0 0% 100%;
-    --card-foreground: 0 0% 3.9%;
+    --card-foreground: 240 10% 3.9%;
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 3.9%;
-    --primary: 0 0% 9%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 240 5.9% 10%;
     --primary-foreground: 0 0% 98%;
-    --secondary: 0 0% 96.1%;
-    --secondary-foreground: 0 0% 9%;
-    --muted: 0 0% 96.1%;
-    --muted-foreground: 0 0% 45.1%;
-    --accent: 0 0% 96.1%;
-    --accent-foreground: 0 0% 9%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 89.8%;
-    --input: 0 0% 89.8%;
-    --ring: 0 0% 3.9%;
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 5.9% 10%;
     --radius: 0.5rem;
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
   }
+
   .dark {
-    --background: 0 0% 3.9%;
+    --background: 240 10% 3.9%;
     --foreground: 0 0% 98%;
-    --card: 0 0% 3.9%;
+    --card: 240 10% 3.9%;
     --card-foreground: 0 0% 98%;
-    --popover: 0 0% 3.9%;
+    --popover: 240 10% 3.9%;
     --popover-foreground: 0 0% 98%;
     --primary: 0 0% 98%;
-    --primary-foreground: 0 0% 9%;
-    --secondary: 0 0% 14.9%;
+    --primary-foreground: 240 5.9% 10%;
+    --secondary: 240 3.7% 15.9%;
     --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 14.9%;
-    --muted-foreground: 0 0% 63.9%;
-    --accent: 0 0% 14.9%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
     --accent-foreground: 0 0% 98%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 14.9%;
-    --input: 0 0% 14.9%;
-    --ring: 0 0% 83.1%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
   }
 }
 
 @layer base {
   * {
-    @apply border-border;
+    @apply border-[hsl(var(--border))];
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-[hsl(var(--background))] text-[hsl(var(--foreground))];
   }
 }
 
-
-/* Define custom CSS variables for light and dark themes */
-@layer base {
-  :root {
-    --background: rgb(255, 255, 255); /* white */
-    --foreground: rgb(20, 20, 20); /* near black */
-
-    --card: rgb(255, 255, 255);
-    --card-foreground: rgb(20, 20, 20);
-
-    --popover: rgb(255, 255, 255);
-    --popover-foreground: rgb(20, 20, 20);
-
-    --primary: rgb(139, 92, 246); /* purple */
-    --primary-foreground: rgb(255, 255, 255);
-
-    --secondary: rgb(241, 245, 249); /* light gray */
-    --secondary-foreground: rgb(30, 41, 59);
-
-    --muted: rgb(241, 245, 249);
-    --muted-foreground: rgb(100, 116, 139);
-
-    --accent: rgb(241, 245, 249);
-    --accent-foreground: rgb(30, 41, 59);
-
-    --destructive: rgb(239, 68, 68); /* red */
-    --destructive-foreground: rgb(255, 255, 255);
-
-    --border: rgb(226, 232, 240);
-    --input: rgb(226, 232, 240);
-    --ring: rgb(139, 92, 246);
-
-    --radius: 0.5rem;
-  }
-
-  .dark {
-    --background: rgb(15, 23, 42); /* dark blue/gray */
-    --foreground: rgb(248, 250, 252);
-
-    --card: rgb(15, 23, 42);
-    --card-foreground: rgb(248, 250, 252);
-
-    --popover: rgb(15, 23, 42);
-    --popover-foreground: rgb(248, 250, 252);
-
-    --primary: rgb(139, 92, 246);
-    --primary-foreground: rgb(248, 250, 252);
-
-    --secondary: rgb(30, 41, 59);
-    --secondary-foreground: rgb(248, 250, 252);
-
-    --muted: rgb(30, 41, 59);
-    --muted-foreground: rgb(148, 163, 184);
-
-    --accent: rgb(30, 41, 59);
-    --accent-foreground: rgb(248, 250, 252);
-
-    --destructive: rgb(127, 29, 29);
-    --destructive-foreground: rgb(248, 250, 252);
-
-    --border: rgb(30, 41, 59);
-    --input: rgb(30, 41, 59);
-    --ring: rgb(139, 92, 246);
-  }
-}
-
-/* Apply base styles using Tailwind CSS utility classes */
-@layer base {
-  * {
-    @apply border-gray-200;
-  }
-  body {
-    @apply bg-[rgb(var(--background))] text-[rgb(var(--foreground))] font-sans antialiased;
-  }
-  a {
-    @apply text-[rgb(var(--primary))] hover:underline;
-  }
-  button {
-    @apply bg-[rgb(var(--primary))] text-[rgb(var(--primary-foreground))] rounded-[var(--radius)] px-4 py-2 hover:bg-[rgb(var(--primary-dark))] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[rgb(var(--ring))];
-  }
-  input, textarea {
-    @apply border-[rgb(var(--border))] bg-[rgb(var(--input))] text-[rgb(var(--foreground))] rounded-[var(--radius)] px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--ring))];
-  }
-}
-
-/* Custom utility classes for gradients and animations */
-.gradient-text {
-  @apply bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-blue-500;
-}
-
+/* Custom styles for finance app */
 .gradient-bg {
-  @apply bg-gradient-to-r from-purple-500 to-blue-500;
+  @apply bg-gradient-to-br from-[#8b5cf6] to-[#3b82f6];
 }
 
-.gradient-bg-teal {
-  @apply bg-gradient-to-r from-teal-500 to-green-500;
+.card-hover {
+  @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-1;
 }
 
-.gradient-bg-orange {
-  @apply bg-gradient-to-r from-yellow-500 to-orange-500;
+.stat-card {
+  @apply rounded-xl p-4 shadow-md;
 }
 
-.gradient-bg-pink {
-  @apply bg-gradient-to-r from-red-500 to-pink-500;
+.stat-value {
+  @apply text-2xl font-bold;
 }
 
-.card-glow {
-  @apply relative overflow-hidden;
+.stat-label {
+  @apply text-sm text-[hsl(var(--muted-foreground))];
 }
 
-.card-glow::before {
-  content: "";
-  @apply absolute inset-0 -z-10 bg-gradient-to-r from-transparent via-white to-transparent opacity-30 blur-xl;
-  transform: translateX(-100%);
-  animation: card-glow 8s infinite;
+/* Chart styles */
+.chart-container {
+  @apply h-64 w-full rounded-xl p-4;
 }
 
-@keyframes card-glow {
-  0% {
-    transform: translateX(-100%);
-  }
-  50% {
-    transform: translateX(100%);
-  }
-  100% {
-    transform: translateX(-100%);
-  }
+/* Form styles */
+.form-input {
+  @apply rounded-md border border-[hsl(var(--input))] bg-[hsl(var(--background))] px-3 py-2 text-sm ring-offset-[hsl(var(--background))] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] focus-visible:ring-offset-2;
 }
 
-.blob {
-  @apply absolute rounded-full blur-3xl opacity-30;
+/* Button styles */
+.btn-primary {
+  @apply inline-flex h-10 items-center justify-center rounded-md bg-[hsl(var(--primary))] px-4 py-2 text-sm font-medium text-[hsl(var(--primary-foreground))] ring-offset-[hsl(var(--background))] transition-colors hover:bg-[hsl(var(--primary))]/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50;
 }
+
+.btn-secondary {
+  @apply inline-flex h-10 items-center justify-center rounded-md bg-[hsl(var(--secondary))] px-4 py-2 text-sm font-medium text-[hsl(var(--secondary-foreground))] ring-offset-[hsl(var(--background))] transition-colors hover:bg-[hsl(var(--secondary))]/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50;
+}
+
+.btn-outline {
+  @apply inline-flex h-10 items-center justify-center rounded-md border border-[hsl(var(--input))] bg-[hsl(var(--background))] px-4 py-2 text-sm font-medium text-[hsl(var(--foreground))] ring-offset-[hsl(var(--background))] transition-colors hover:bg-[hsl(var(--accent))] hover:text-[hsl(var(--accent-foreground))] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50;
+}
+
+/* Animation for loading states */
+.pulse {
+  @apply animate-pulse opacity-70;
+}
+
+/* Demo mode banner */
+.demo-mode-banner {
+  @apply bg-[#eab308]/20 border border-[#eab308] text-[hsl(var(--foreground))] px-4 py-2 rounded-md text-sm;
+}
+
