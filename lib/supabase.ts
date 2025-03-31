@@ -1,457 +1,247 @@
-import { SupabaseClient, createClient as createSupabaseClient } from "@supabase/supabase-js"
-import type { Database } from "@/types/database"
+import { createClient } from "@supabase/supabase-js"
 
-// Check if Supabase environment variables are available
+// Environment variables
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
-// Flag to indicate if we're in demo mode (missing credentials)
-export const isDemoMode = !supabaseUrl || !supabaseAnonKey
+// Type for the Supabase client
+export type TypedSupabaseClient = ReturnType<typeof createTypedSupabaseClient>
 
 /**
- * Create a Supabase client
- * This function will return a real client if credentials are available,
- * or a mock client if they are missing
+ * Creates a typed Supabase client
  */
-export function createClient<T = Database>(): SupabaseClient<T> {
-  if (isDemoMode) {
-    console.warn(
-      "⚠️ Using mock Supabase client. Set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY environment variables for production use.",
-    )
-    return createMockClient<T>() as unknown as SupabaseClient<T>
+function createTypedSupabaseClient() {
+  if (!supabaseUrl || !supabaseAnonKey) {
+    console.warn("Supabase credentials missing, using mock client")
+    return createMockClient()
   }
 
-  return createSupabaseClient<T>(supabaseUrl!, supabaseAnonKey!)
+  // Create the Supabase client without generic type arguments
+  return createClient(supabaseUrl, supabaseAnonKey)
 }
 
-// Create a mock Supabase client for development/demo purposes
-function createMockClient<T>() {
-  // Mock user data
-  const mockUser = {
-    id: "mock-user-id",
-    email: "demo@example.com",
-    user_metadata: {
-      first_name: "Demo",
-      last_name: "User",
-    },
-  }
-
-  // Mock profile data
-  const mockProfile = {
-    id: "mock-user-id",
-    first_name: "Demo",
-    last_name: "User",
-    email: "demo@example.com",
-    has_plaid_connection: true,
-    created_at: new Date().toISOString(),
-  }
-
-  // Mock transactions data
-  const mockTransactions = [
-    {
-      id: "tx1",
-      user_id: "mock-user-id",
-      name: "Starbucks",
-      amount: -4.85,
-      date: new Date().toISOString(),
-      category: ["Food & Drink"],
-      merchant_name: "Starbucks",
-      pending: false,
-      created_at: new Date().toISOString(),
-    },
-    {
-      id: "tx2",
-      user_id: "mock-user-id",
-      name: "Amazon",
-      amount: -32.99,
-      date: new Date(Date.now() - 86400000).toISOString(),
-      category: ["Shopping"],
-      merchant_name: "Amazon",
-      pending: false,
-      created_at: new Date(Date.now() - 86400000).toISOString(),
-    },
-    {
-      id: "tx3",
-      user_id: "mock-user-id",
-      name: "Salary Deposit",
-      amount: 2250.0,
-      date: new Date(Date.now() - 3 * 86400000).toISOString(),
-      category: ["Income"],
-      merchant_name: "Employer",
-      pending: false,
-      created_at: new Date(Date.now() - 3 * 86400000).toISOString(),
-    },
-  ]
-
-  // Mock accounts data
-  const mockAccounts = [
-    {
-      id: "acc1",
-      user_id: "mock-user-id",
-      item_id: "item1",
-      account_id: "account1",
-      name: "Checking Account",
-      type: "depository",
-      subtype: "checking",
-      balance_available: 9580,
-      balance_current: 9580,
-      created_at: new Date().toISOString(),
-    },
-    {
-      id: "acc2",
-      user_id: "mock-user-id",
-      item_id: "item1",
-      account_id: "account2",
-      name: "Savings Account",
-      type: "depository",
-      subtype: "savings",
-      balance_available: 3000,
-      balance_current: 3000,
-      created_at: new Date().toISOString(),
-    },
-  ]
-
-  // Mock goals data
-  const mockGoals = [
-    {
-      id: "goal1",
-      user_id: "mock-user-id",
-      title: "Emergency Fund",
-      target: 15000,
-      current: 8500,
-      color: "purple",
-      created_at: new Date().toISOString(),
-    },
-    {
-      id: "goal2",
-      user_id: "mock-user-id",
-      title: "Vacation",
-      target: 5000,
-      current: 2300,
-      color: "blue",
-      created_at: new Date().toISOString(),
-    },
-  ]
-
-  // Mock plaid_items data
-  const mockPlaidItems = [
-    {
-      id: "item1",
-      user_id: "mock-user-id",
-      item_id: "plaid_item_id",
-      access_token: "mock_access_token",
-      created_at: new Date().toISOString(),
-    },
-  ]
-
-  // Return a mock client with the necessary methods
+/**
+ * Creates a mock Supabase client for development/demo mode
+ */
+function createMockClient() {
+  // Simple mock implementation that logs operations
   return {
     auth: {
-      getSession: async () => ({ data: { session: { user: mockUser } }, error: null }),
-      getUser: async () => ({ data: { user: mockUser }, error: null }),
-      signUp: async () => ({ data: { user: mockUser }, error: null }),
-      signInWithPassword: async () => ({ data: { user: mockUser, session: {} }, error: null }),
+      getUser: async () => ({ data: { user: null }, error: null }),
+      getSession: async () => ({ data: { session: null }, error: null }),
       signOut: async () => ({ error: null }),
-      resetPasswordForEmail: async () => ({ error: null }),
-      updateUser: async () => ({ data: { user: mockUser }, error: null }),
+      onAuthStateChange: () => ({ data: { subscription: { unsubscribe: () => {} } } }),
     },
     from: (table: string) => ({
-      select: (columns = "*") => ({
-        eq: (column: string, value: any) => ({
-          single: async () => {
-            if (table === "profiles" && column === "id" && value === "mock-user-id") {
-              return { data: mockProfile, error: null }
-            }
-            return { data: null, error: null }
-          },
-          limit: (limit: number) => ({
-            order: (column: string, { ascending = true } = {}) => {
-              if (table === "transactions" && column === "user_id" && value === "mock-user-id") {
-                return { data: mockTransactions.slice(0, limit), error: null }
-              }
-              if (table === "accounts" && column === "user_id" && value === "mock-user-id") {
-                return { data: mockAccounts.slice(0, limit), error: null }
-              }
-              if (table === "goals" && column === "user_id" && value === "mock-user-id") {
-                return { data: mockGoals.slice(0, limit), error: null }
-              }
-              if (table === "plaid_items" && column === "user_id" && value === "mock-user-id") {
-                return { data: mockPlaidItems.slice(0, limit), error: null }
-              }
-              return { data: [], error: null }
-            },
+      select: () => ({
+        eq: () => ({
+          single: async () => ({ data: null, error: null }),
+          order: () => ({
+            limit: () => ({
+              range: () => ({
+                data: [],
+                error: null,
+              }),
+            }),
           }),
         }),
-        gte: (column: string, value: any) => ({
-          lte: (column: string, value: any) => ({
-            order: (column: string, { ascending = true } = {}) => {
-              if (table === "transactions") {
-                return { data: mockTransactions, error: null }
-              }
-              return { data: [], error: null }
-            },
-          }),
-        }),
-        limit: (limit: number) => ({
-          order: (column: string, { ascending = true } = {}) => {
-            if (table === "transactions") {
-              return { data: mockTransactions.slice(0, limit), error: null }
-            }
-            if (table === "accounts") {
-              return { data: mockAccounts.slice(0, limit), error: null }
-            }
-            if (table === "goals") {
-              return { data: mockGoals.slice(0, limit), error: null }
-            }
-            return { data: [], error: null }
-          },
-        }),
-        order: (column: string, { ascending = true } = {}) => {
-          if (table === "transactions") {
-            return { data: mockTransactions, error: null }
-          }
-          if (table === "accounts") {
-            return { data: mockAccounts, error: null }
-          }
-          if (table === "goals") {
-            return { data: mockGoals, error: null }
-          }
-          return { data: [], error: null }
-        },
+        data: [],
+        error: null,
       }),
-      insert: (data: any) => ({
-        select: (columns = "*") => {
-          if (table === "profiles") {
-            return { data: [mockProfile], error: null }
-          }
-          if (table === "transactions") {
-            return { data: [mockTransactions[0]], error: null }
-          }
-          if (table === "accounts") {
-            return { data: [mockAccounts[0]], error: null }
-          }
-          if (table === "goals") {
-            return { data: [mockGoals[0]], error: null }
-          }
-          if (table === "plaid_items") {
-            return { data: [mockPlaidItems[0]], error: null }
-          }
-          return { data: [data], error: null }
-        },
-      }),
-      update: (data: any) => ({
-        eq: (column: string, value: any) => ({
-          select: (columns = "*") => {
-            if (table === "profiles" && column === "id" && value === "mock-user-id") {
-              return { data: [{ ...mockProfile, ...data }], error: null }
-            }
-            if (table === "goals" && column === "id") {
-              const updatedGoal = mockGoals.find((goal) => goal.id === value)
-              if (updatedGoal) {
-                return { data: [{ ...updatedGoal, ...data }], error: null }
-              }
-            }
-            return { data: [], error: null }
-          },
-        }),
+      insert: () => ({ data: null, error: null }),
+      update: () => ({
+        eq: () => ({ data: null, error: null }),
       }),
       delete: () => ({
-        eq: (column: string, value: any) => {
-          return { error: null }
-        },
+        eq: () => ({ data: null, error: null }),
       }),
     }),
     storage: {
-      from: (bucket: string) => ({
-        upload: async (path: string, file: any) => ({ data: { path }, error: null }),
-        getPublicUrl: (path: string) => ({ data: { publicUrl: "/placeholder.svg" } }),
+      from: () => ({
+        upload: async () => ({ data: null, error: null }),
+        getPublicUrl: () => ({ data: { publicUrl: "" } }),
       }),
     },
-  } as unknown as ReturnType<typeof createClient<T>>
+  } as unknown as ReturnType<typeof createClient>
 }
 
-// Initialize the Supabase client
-const supabase = isDemoMode
-  ? createMockClient<Database>()
-  : createSupabaseClient<Database>(supabaseUrl!, supabaseAnonKey!)
+// Create a singleton instance of the Supabase client
+const supabase = createTypedSupabaseClient()
 
 export { supabase }
 
-// Type definitions for user profile
-export interface UserProfile {
-  id: string
-  firstName: string
-  lastName: string
-  email: string
-  hasPlaidConnection: boolean
-  createdAt: string
-  updatedAt?: string
-  subscription?: string
-  subscriptionStatus?: string
-}
-
 /**
- * Get transactions for a user
+ * Helper functions for common Supabase operations
  */
-export async function getTransactions(userId: string, startDate?: Date, endDate?: Date) {
-  try {
-    let query = supabase.from("transactions").select("*").eq("user_id", userId).order("date", { ascending: false })
 
-    if (startDate) {
-      query = query.gte("date", startDate.toISOString())
-    }
+// Fetch user profile
+export async function fetchUserProfile(userId: string) {
+  const { data, error } = await supabase.from("profiles").select("*").eq("id", userId).single()
 
-    if (endDate) {
-      query = query.lte("date", endDate.toISOString())
-    }
-
-    const { data, error } = await query
-
-    if (error) throw error
-
-    // Transform to match the expected format
-    return data.map((transaction) => ({
-      id: transaction.id,
-      userId: transaction.user_id,
-      name: transaction.name,
-      amount: transaction.amount,
-      date: transaction.date,
-      category: transaction.category || [],
-      merchantName: transaction.merchant_name,
-      pending: transaction.pending,
-      createdAt: transaction.created_at,
-    }))
-  } catch (error: any) {
-    console.error("Get transactions error:", error.message)
-    throw new Error(`Failed to get transactions: ${error.message}`)
+  if (error) {
+    console.error("Error fetching user profile:", error)
+    return null
   }
+
+  return data
 }
 
-/**
- * Get accounts for a user
- */
-export async function getAccounts(userId: string) {
-  try {
-    const { data, error } = await supabase.from("accounts").select("*").eq("user_id", userId)
+// Fetch user accounts
+export async function fetchUserAccounts(userId: string) {
+  const { data, error } = await supabase.from("accounts").select("*").eq("user_id", userId)
 
-    if (error) throw error
-
-    // Transform to match the expected format
-    return data.map((account) => ({
-      id: account.id,
-      userId: account.user_id,
-      itemId: account.item_id,
-      accountId: account.account_id,
-      name: account.name,
-      type: account.type,
-      subtype: account.subtype,
-      balances: {
-        available: account.balance_available,
-        current: account.balance_current,
-      },
-      createdAt: account.created_at,
-    }))
-  } catch (error: any) {
-    console.error("Get accounts error:", error.message)
-    throw new Error(`Failed to get accounts: ${error.message}`)
+  if (error) {
+    console.error("Error fetching accounts:", error)
+    return []
   }
+
+  return data
 }
 
-/**
- * Get goals for a user
- */
-export async function getGoals(userId: string) {
-  try {
-    const { data, error } = await supabase.from("goals").select("*").eq("user_id", userId)
+// Fetch user transactions with optional filters
+export async function fetchUserTransactions(
+  userId: string,
+  limit = 50,
+  startDate?: string,
+  endDate?: string,
+  category?: string,
+) {
+  let query = supabase
+    .from("transactions")
+    .select("*")
+    .eq("user_id", userId)
+    .order("date", { ascending: false })
+    .limit(limit)
 
-    if (error) throw error
-
-    // Transform to match the expected format
-    return data.map((goal) => ({
-      id: goal.id,
-      userId: goal.user_id,
-      title: goal.title,
-      target: goal.target,
-      current: goal.current,
-      color: goal.color,
-      createdAt: goal.created_at,
-    }))
-  } catch (error: any) {
-    console.error("Get goals error:", error.message)
-    throw new Error(`Failed to get goals: ${error.message}`)
+  if (startDate) {
+    query = query.gte("date", startDate)
   }
+
+  if (endDate) {
+    query = query.lte("date", endDate)
+  }
+
+  if (category) {
+    query = query.eq("category", category)
+  }
+
+  const { data, error } = await query
+
+  if (error) {
+    console.error("Error fetching transactions:", error)
+    return []
+  }
+
+  return data
 }
 
-/**
- * Get plaid items for a user
- */
-export async function getPlaidItems(userId: string) {
-  try {
-    const { data, error } = await supabase.from("plaid_items").select("*").eq("user_id", userId)
+// Fetch user goals
+export async function fetchUserGoals(userId: string) {
+  const { data, error } = await supabase.from("goals").select("*").eq("user_id", userId)
 
-    if (error) throw error
-
-    // Transform to match the expected format
-    return data.map((item) => ({
-      id: item.id,
-      userId: item.user_id,
-      itemId: item.item_id,
-      accessToken: item.access_token,
-      createdAt: item.created_at,
-    }))
-  } catch (error: any) {
-    console.error("Get plaid items error:", error.message)
-    throw new Error(`Failed to get plaid items: ${error.message}`)
+  if (error) {
+    console.error("Error fetching goals:", error)
+    return []
   }
+
+  return data
 }
 
-/**
- * Add a plaid item for a user
- */
-export async function addPlaidItem(userId: string, itemId: string, accessToken: string) {
-  try {
-    const { data, error } = await supabase
-      .from("plaid_items")
-      .insert({
-        user_id: userId,
-        item_id: itemId,
-        access_token: accessToken,
-        created_at: new Date().toISOString(),
-      })
-      .select()
+// Update user profile
+export async function updateUserProfile(userId: string, updates: any) {
+  const { data, error } = await supabase.from("profiles").update(updates).eq("id", userId)
 
-    if (error) throw error
-    return data[0]
-  } catch (error: any) {
-    console.error("Add plaid item error:", error.message)
-    throw new Error(`Failed to add plaid item: ${error.message}`)
+  if (error) {
+    console.error("Error updating profile:", error)
+    return false
   }
+
+  return true
 }
 
-/**
- * Add an account for a user
- */
-export async function addAccount(userId: string, account: any) {
-  try {
-    const { data, error } = await supabase
-      .from("accounts")
-      .insert({
-        user_id: userId,
-        item_id: account.itemId,
-        account_id: account.id,
-        name: account.name,
-        type: account.type,
-        subtype: account.subtype,
-        balance_available: account.balances.available,
-        balance_current: account.balances.current,
-        created_at: new Date().toISOString(),
-      })
-      .select()
+// Create a new transaction
+export async function createTransaction(transaction: any) {
+  const { data, error } = await supabase.from("transactions").insert(transaction)
 
-    if (error) throw error
-    return data[0]
-  } catch (error: any) {
-    console.error("Add account error:", error.message)
-    throw new Error(`Failed to add account: ${error.message}`)
+  if (error) {
+    console.error("Error creating transaction:", error)
+    return false
   }
+
+  return true
 }
+
+// Update a transaction
+export async function updateTransaction(transactionId: string, updates: any) {
+  const { data, error } = await supabase.from("transactions").update(updates).eq("id", transactionId)
+
+  if (error) {
+    console.error("Error updating transaction:", error)
+    return false
+  }
+
+  return true
+}
+
+// Delete a transaction
+export async function deleteTransaction(transactionId: string) {
+  const { data, error } = await supabase.from("transactions").delete().eq("id", transactionId)
+
+  if (error) {
+    console.error("Error deleting transaction:", error)
+    return false
+  }
+
+  return true
+}
+
+// Create a new account
+export async function createAccount(account: any) {
+  const { data, error } = await supabase.from("accounts").insert(account)
+
+  if (error) {
+    console.error("Error creating account:", error)
+    return false
+  }
+
+  return true
+}
+
+// Update an account
+export async function updateAccount(accountId: string, updates: any) {
+  const { data, error } = await supabase.from("accounts").update(updates).eq("id", accountId)
+
+  if (error) {
+    console.error("Error updating account:", error)
+    return false
+  }
+
+  return true
+}
+
+// Delete an account
+export async function deleteAccount(accountId: string) {
+  const { data, error } = await supabase.from("accounts").delete().eq("id", accountId)
+
+  if (error) {
+    console.error("Error deleting account:", error)
+    return false
+  }
+
+  return true
+}
+
+// Upload a file to Supabase Storage
+export async function uploadFile(bucket: string, path: string, file: File) {
+  const { data, error } = await supabase.storage.from(bucket).upload(path, file)
+
+  if (error) {
+    console.error("Error uploading file:", error)
+    return null
+  }
+
+  const { data: urlData } = supabase.storage.from(bucket).getPublicUrl(path)
+
+  return urlData.publicUrl
+}
+
